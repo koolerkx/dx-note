@@ -8,5 +8,12 @@ int APIENTRY WinMain(
 	_In_ LPSTR lpCmdLine, 
 	_In_ int nCmdShow)
 {
+	int result = MessageBox(
+		nullptr,	// for owner window, nullptr means no owner
+		"Hello",	// message text
+		"World",	// title text
+		MB_ABORTRETRYIGNORE	// button
+	);
+
 	return 0;
 }
