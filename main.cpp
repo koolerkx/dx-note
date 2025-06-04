@@ -1,4 +1,7 @@
 #include <Windows.h>
+#include <sstream>
+
+constexpr char FILE_NAME[] = "tekito.png";
 
 // WinMain: program entry
 int APIENTRY WinMain(
@@ -8,9 +11,12 @@ int APIENTRY WinMain(
 	_In_ LPSTR lpCmdLine, 
 	_In_ int nCmdShow)
 {
+	std::stringstream ss;
+	ss << "Texture file" << FILE_NAME << " is failed to laoad";
+
 	int result = MessageBox(
 		nullptr,	// for owner window, nullptr means no owner
-		"Hello",	// message text
+		ss.str().c_str(),	// message text
 		"World",	// title text
 		MB_ABORTRETRYIGNORE	// button
 	);
