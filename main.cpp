@@ -15,5 +15,20 @@ int APIENTRY WinMain(
 		MB_ABORTRETRYIGNORE	// button
 	);
 
+	switch (result)
+	{
+	case IDABORT:
+		MessageBox(nullptr, "You pressed Abort", "Info", MB_OK);
+		break;
+	case IDRETRY:
+		MessageBox(nullptr, "You pressed Retry", "Info", MB_OK);
+		break;
+	case IDIGNORE:
+		MessageBox(nullptr, "You pressed Ignore", "Info", MB_OK);
+		break;
+	default:
+		break;
+	}
+
 	return 0;
 }
