@@ -18,7 +18,9 @@ int APIENTRY WinMain(
 		nullptr,	// for owner window, nullptr means no owner
 		ss.str().c_str(),	// message text
 		"World",	// title text
-		MB_ABORTRETRYIGNORE	| MB_ICONERROR // flag -> button, icon etc
+		MB_ABORTRETRYIGNORE	// flag button
+		| MB_ICONEXCLAMATION // flag icon
+		| MB_DEFBUTTON2 // flag default selected button
 	);
 
 	switch (result)
