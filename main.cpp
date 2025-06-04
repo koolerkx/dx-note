@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include <sstream>
 
+#include "debug_ostream.h"
+
 constexpr char FILE_NAME[] = "tekito.png";
 
 // WinMain: program entry
@@ -11,6 +13,8 @@ int APIENTRY WinMain(
 	_In_ LPSTR lpCmdLine, 
 	_In_ int nCmdShow)
 {
+	hal::dout << "Hello, World!" << std::endl;
+
 	std::stringstream ss;
 	ss << "Texture file" << FILE_NAME << " is failed to laoad";
 
