@@ -33,14 +33,27 @@ int APIENTRY WinMain(
 	RegisterClassEx(&wcex);
 
 	// メインウィンドウの作成
+	const constexpr int SCREEN_WIDTH = 1600;
+	const constexpr int SCREEN_HEIGHT = 900;
+
+	RECT window_rect {
+		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
+	};
+	
+	DWORD style = WS_OVERLAPPEDWINDOW & ~(WS_MAXIMIZEBOX | WS_THICKFRAME);
+	
+	AdjustWindowRect(&window_rect, style, FALSE);
+
+	const int WINDOW_WIDTH = window_rect.right - window_rect.left;
+	const int WINDOW_HEIGHT = window_rect.bottom - window_rect.top;
 	HWND hWnd = CreateWindow(
 		WINDOW_CLASS,
 		TITLE,
-		WS_OVERLAPPEDWINDOW,
+		style,	//　Window Style Flag
 		CW_USEDEFAULT,
 		0,
-		CW_USEDEFAULT,
-		0,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
 		nullptr,
 		nullptr,
 		hInstance,
