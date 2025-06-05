@@ -17,6 +17,7 @@ int APIENTRY WinMain(
 	_In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow)
 {
+	// ウインドウクラスの登録
 	WNDCLASSEX wcex{};
 
 	wcex.cbSize = sizeof(WNDCLASSEX);
@@ -32,7 +33,19 @@ int APIENTRY WinMain(
 	RegisterClassEx(&wcex);
 
 	// メインウィンドウの作成
-	HWND hWnd = CreateWindow(WINDOW_CLASS, TITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindow(
+		WINDOW_CLASS,
+		TITLE,
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT,
+		0,
+		CW_USEDEFAULT,
+		0,
+		nullptr,
+		nullptr,
+		hInstance,
+		nullptr
+	);
 
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
