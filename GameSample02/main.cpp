@@ -78,6 +78,12 @@ int APIENTRY WinMain(
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message)
 	{
+	case WM_CLOSE:
+		if (MessageBox(hWnd, "本当に終了してよろしいですか？", "確認",  MB_YESNO | MB_DEFBUTTON2) == IDYES)
+		{
+			DestroyWindow(hWnd);
+		}
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
