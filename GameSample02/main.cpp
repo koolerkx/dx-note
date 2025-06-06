@@ -1,6 +1,7 @@
 #include <SDKDDKVer.h>
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <algorithm>
 
 // ウィンドウ情報
 static constexpr char WINDOW_CLASS[] = "GameWindow"; // メインウインドウクラス名
@@ -46,12 +47,23 @@ int APIENTRY WinMain(
 
 	const int WINDOW_WIDTH = window_rect.right - window_rect.left;
 	const int WINDOW_HEIGHT = window_rect.bottom - window_rect.top;
+	
+	// デスクトップのサイズを取得
+	// ライブラリモニターの画面解像度取得
+	int desktop_width = GetSystemMetrics(SM_CXSCREEN);
+	int desktop_height = GetSystemMetrics(SM_CYSCREEN);
+
+	// ウインドウの表示位置をデスクトップの真ん中に調整する
+	// offset to center, use std::max to prevent window overflow
+	const int WINDOW_X = std::max(0, (desktop_width - WINDOW_WIDTH) / 2);
+	const int WINDOW_Y = std::max(0, (desktop_height - WINDOW_HEIGHT) / 2);
+	
 	HWND hWnd = CreateWindow(
 		WINDOW_CLASS,
 		TITLE,
 		style,	//　Window Style Flag
-		CW_USEDEFAULT,
-		0,
+		WINDOW_X,	// CW_USEDEFAULT
+		WINDOW_Y,
 		WINDOW_WIDTH,
 		WINDOW_HEIGHT,
 		nullptr,
