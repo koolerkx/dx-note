@@ -32,13 +32,13 @@ bool Direct3D_Initialize(HWND hWnd)
 {
     /* デバイス、スワップチェーン、コンテキスト生成 */
     DXGI_SWAP_CHAIN_DESC swap_chain_desc{};
-    swap_chain_desc.Windowed = TRUE;
-    swap_chain_desc.BufferCount = 2;
+    swap_chain_desc.Windowed = TRUE;	// full screen
+    swap_chain_desc.BufferCount = 2;	// 裏画面が何個用意する
     // swap_chain_desc.BufferDesc.Width = 0;
     // swap_chain_desc.BufferDesc.Height = 0;
 	// ⇒ ウィンドウサイズに合わせて自動的に設定される
-    swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// 色のformat
+    swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// 何に使う、ここは絵を各場所で使う
     swap_chain_desc.SampleDesc.Count = 1;
     swap_chain_desc.SampleDesc.Quality = 0;
     swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
@@ -77,10 +77,11 @@ bool Direct3D_Initialize(HWND hWnd)
         ARRAYSIZE(levels),
         D3D11_SDK_VERSION,
         &swap_chain_desc,
-        &g_pSwapChain,
-        &g_pDevice,
+        &g_pSwapChain,	// 大事
+        &g_pDevice,	// 大事
         &feature_level,
-        &g_pDeviceContext);
+        &g_pDeviceContext	// 大事
+	);
 
     if (FAILED(hr)) {
 		MessageBox(hWnd, "Direct3Dの初期化に失敗しました", "エラー", MB_OK);
@@ -99,25 +100,30 @@ void Direct3D_Finalize()
 {
 	releaseBackBuffer();
 
-	if (g_pSwapChain) {
-		g_pSwapChain->Release();
-		g_pSwapChain = nullptr;
-	}
+	// Same as below
+	SAFE_RELEASE(g_pSwapChain);
+	SAFE_RELEASE(g_pDeviceContext);
+	SAFE_RELEASE(g_pDevice);
 
-	if (g_pDeviceContext) {
-		g_pDeviceContext->Release();
-		g_pDeviceContext = nullptr;
-	}
-	
-    if (g_pDevice) {
-		g_pDevice->Release();
-		g_pDevice = nullptr;
-	}
+	//if (g_pSwapChain) {
+	//	g_pSwapChain->Release();
+	// 	g_pSwapChain = nullptr;
+	//}
+
+	//if (g_pDeviceContext) {
+	//	g_pDeviceContext->Release();
+	//	g_pDeviceContext = nullptr;
+	//}
+	//
+ //   if (g_pDevice) {
+	//	g_pDevice->Release();
+	//	g_pDevice = nullptr;
+	//}
 }
 
 void Direct3D_Clear()
 {
-	float clear_color[4] = { 0.2f, 0.4f, 0.8f, 1.0f };
+	float clear_color[4] = { 0.2f, 0.2f, 0.5f, 1.0f };
 	g_pDeviceContext->ClearRenderTargetView(g_pRenderTargetView, clear_color);
 	g_pDeviceContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
@@ -125,6 +131,7 @@ void Direct3D_Clear()
 void Direct3D_Present()
 {
 	// スワップチェーンの表示
+	// 貯まった描画コマンドをグラフィックに転送
 	g_pSwapChain->Present(1, 0);
 }
 
@@ -194,18 +201,22 @@ bool configureBackBuffer()
 
 void releaseBackBuffer()
 {
-	if (g_pRenderTargetView) {
-		g_pRenderTargetView->Release();
-		g_pRenderTargetView = nullptr;
-	}
+	// Same as below
+	SAFE_RELEASE(g_pRenderTargetView)
+	SAFE_RELEASE(g_pDepthStencilBuffer)
+	SAFE_RELEASE(g_pDepthStencilView)
+	//if (g_pRenderTargetView) {
+	//	g_pRenderTargetView->Release();
+	//	g_pRenderTargetView = nullptr;
+	//}
 
-	if (g_pDepthStencilBuffer) {
-		g_pDepthStencilBuffer->Release();
-		g_pDepthStencilBuffer = nullptr;
-	}
+	//if (g_pDepthStencilBuffer) {
+	//	g_pDepthStencilBuffer->Release();
+	//	g_pDepthStencilBuffer = nullptr;
+	//}
 
-	if (g_pDepthStencilView) {
-		g_pDepthStencilView->Release();
-		g_pDepthStencilView = nullptr;
-	}
+	//if (g_pDepthStencilView) {
+	//	g_pDepthStencilView->Release();
+	//	g_pDepthStencilView = nullptr;
+	//}
 }
