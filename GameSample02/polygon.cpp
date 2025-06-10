@@ -90,7 +90,7 @@ void Polygon_Draw(void)
 	Shader_SetMatrix(XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
 
 	// プリミティブトポロジ設定
-	g_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+	g_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	// ポリゴン描画命令発行
 	g_pContext->Draw(NUM_VERTEX, 0);

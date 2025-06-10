@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include "game_window.h"
 #include "direct3d.h"
+#include "polygon.h"
+#include "shader.h"
 
 // ÉÅÉCÉì
 int APIENTRY WinMain(
@@ -14,7 +16,9 @@ int APIENTRY WinMain(
 	HWND hWnd = GameWindow_Create(hInstance);
 	
 	Direct3D_Initialize(hWnd);
-
+	Shader_Initialize(Direct3D_GetDevice(), Direct3D_GetContext());
+	Polygon_Initialize(Direct3D_GetDevice(), Direct3D_GetContext());
+	
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
@@ -26,8 +30,14 @@ int APIENTRY WinMain(
 		DispatchMessage(&msg);
 
 		Direct3D_Clear();
+
+		Polygon_Draw();
+		
 		Direct3D_Present();
 	}
+
+	Polygon_Finalize();
+	Shader_Finalize();
 	Direct3D_Finalize();
 
 	return (int)msg.wParam;
