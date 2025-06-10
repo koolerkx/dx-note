@@ -135,6 +135,15 @@ void Direct3D_Present()
 	g_pSwapChain->Present(1, 0);
 }
 
+unsigned int Direct3D_GetBackBufferWidth()
+{
+	return g_BackBufferDesc.Width;
+}
+unsigned int Direct3D_GetBackBufferHeight()
+{
+	return g_BackBufferDesc.Height;
+}
+
 bool configureBackBuffer()
 {
     HRESULT hr;
