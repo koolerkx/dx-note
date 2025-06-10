@@ -28,6 +28,7 @@ static ID3D11DeviceContext* g_pContext = nullptr;
 struct Vertex
 {
 	XMFLOAT3 position; // 頂点座標
+	XMFLOAT4 color;
 };
 
 
@@ -76,18 +77,33 @@ void Polygon_Draw(void)
 
 	// 画面の左上から右下に向かう線分を描画する -> 時計回り
 	v[0].position = { 0.1f * SCREEN_WIDTH, 0.1f * SCREEN_HEIGHT, 0.0f };	// LT
+	v[0].color = { 1.0f, 0.0f, 0.0f, 1.0f};
 	v[1].position = { 0.2f * SCREEN_WIDTH, 0.1f * SCREEN_HEIGHT, 0.0f };	// RT
+	v[1].color = { 0.0f, 1.0f, 0.0f, 1.0f};
 	v[2].position = { 0.15f * SCREEN_WIDTH, 0.2f * SCREEN_HEIGHT, 0.0f };	// LB
+	v[2].color = { 0.0f, 0.0f, 1.0f, 1.0f};
+	
 	v[3].position = { 0.2f * SCREEN_WIDTH, 0.1f * SCREEN_HEIGHT, 0.0f };	// RT
+	v[3].color = { 0.0f, 1.0f, 0.0f, 1.0f};
 	v[4].position = { 0.25f * SCREEN_WIDTH, 0.2f * SCREEN_HEIGHT, 0.0f };	// RB
+	v[4].color = { 1.0f, 0.0f, 0.0f, 1.0f};
 	v[5].position = { 0.15f * SCREEN_WIDTH, 0.2f * SCREEN_HEIGHT, 0.0f };	// LB
+	v[5].color = { 0.0f, 0.0f, 1.0f, 1.0f};
+
 
 	v[6].position = { 0.7f * SCREEN_WIDTH, 0.7f * SCREEN_HEIGHT, 0.0f };	// LT
+	v[6].color = { 1.0f, 0.0f, 0.0f, 1.0f};
 	v[7].position = { 0.8f * SCREEN_WIDTH, 0.7f * SCREEN_HEIGHT, 0.0f };	// RT
+	v[7].color = { 0.0f, 1.0f, 0.0f, 1.0f};
 	v[8].position = { 0.75f * SCREEN_WIDTH, 0.8f * SCREEN_HEIGHT, 0.0f };	// LB
+	v[8].color = { 0.0f, 0.0f, 1.0f, 1.0f};
+
 	v[9].position = { 0.8f * SCREEN_WIDTH, 0.7f * SCREEN_HEIGHT, 0.0f };	// RT
+	v[9].color = { 0.0f, 1.0f, 0.0f, 1.0f};
 	v[10].position = { 0.85f * SCREEN_WIDTH, 0.8f * SCREEN_HEIGHT, 0.0f };	// RB
+	v[10].color = { 1.0f, 0.0f, 0.0f, 1.0f};
 	v[11].position = { 0.75f * SCREEN_WIDTH, 0.8f * SCREEN_HEIGHT, 0.0f };	// LB
+	v[11].color = { 0.0f, 0.0f, 1.0f, 1.0f};
 	
 	// 頂点バッファのロックを解除
 	g_pContext->Unmap(g_pVertexBuffer, 0);
