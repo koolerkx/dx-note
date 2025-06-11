@@ -75,4 +75,9 @@
     <Library Include="DirectXTex_Debug.lib" />
     <Library Include="DirectXTex_Release.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="knight.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

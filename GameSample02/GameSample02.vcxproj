@@ -183,6 +183,9 @@
     <Library Include="DirectXTex_Debug.lib" />
     <Library Include="DirectXTex_Release.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="knight.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
