@@ -13,6 +13,12 @@
 #pragma comment(lib, "d3d11.lib")
 // #pragma comment(lib, "dxgi.lib")
 
+#if defined(DEBUG) || defined(_DEBUG)
+#pragma comment(lib, "DirectXTex_Debug.lib")
+#else
+#pragma comment(lib, "DirectXTex_Release.lib")
+#endif
+
 /* 各種インターフェース */
 static ID3D11Device* g_pDevice = nullptr;
 static ID3D11DeviceContext* g_pDeviceContext = nullptr;
@@ -32,19 +38,19 @@ static void releaseBackBuffer(); // バックバッファの解放
 
 bool Direct3D_Initialize(HWND hWnd)
 {
-    /* デバイス、スワップチェーン、コンテキスト生成 */
-    DXGI_SWAP_CHAIN_DESC swap_chain_desc{};
-    swap_chain_desc.Windowed = TRUE;	// full screen
-    swap_chain_desc.BufferCount = 2;	// 裏画面が何個用意する
-    // swap_chain_desc.BufferDesc.Width = 0;
-    // swap_chain_desc.BufferDesc.Height = 0;
+	/* デバイス、スワップチェーン、コンテキスト生成 */
+	DXGI_SWAP_CHAIN_DESC swap_chain_desc{};
+	swap_chain_desc.Windowed = TRUE;	// full screen
+	swap_chain_desc.BufferCount = 2;	// 裏画面が何個用意する
+	// swap_chain_desc.BufferDesc.Width = 0;
+	// swap_chain_desc.BufferDesc.Height = 0;
 	// ⇒ ウィンドウサイズに合わせて自動的に設定される
-    swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// 色のformat
-    swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// 何に使う、ここは絵を各場所で使う
-    swap_chain_desc.SampleDesc.Count = 1;
-    swap_chain_desc.SampleDesc.Quality = 0;
-    swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
-    swap_chain_desc.OutputWindow = hWnd;
+	swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// 色のformat
+	swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// 何に使う、ここは絵を各場所で使う
+	swap_chain_desc.SampleDesc.Count = 1;
+	swap_chain_desc.SampleDesc.Quality = 0;
+	swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+	swap_chain_desc.OutputWindow = hWnd;
 
 	/*
 	IDXGIFactory1* pFactory;
@@ -60,42 +66,42 @@ bool Direct3D_Initialize(HWND hWnd)
 	UINT device_flags = 0;
 
 #if defined(DEBUG) || defined(_DEBUG)
-    device_flags |= D3D11_CREATE_DEVICE_DEBUG;
+	device_flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-    D3D_FEATURE_LEVEL levels[] = {
-        D3D_FEATURE_LEVEL_11_1,
-        D3D_FEATURE_LEVEL_11_0
-    };
-    
-    D3D_FEATURE_LEVEL feature_level = D3D_FEATURE_LEVEL_11_0;
- 
-    HRESULT hr = D3D11CreateDeviceAndSwapChain(
-        nullptr,
-        D3D_DRIVER_TYPE_HARDWARE,
-        nullptr,
-        device_flags,
-        levels,
-        ARRAYSIZE(levels),
-        D3D11_SDK_VERSION,
-        &swap_chain_desc,
-        &g_pSwapChain,	// 大事
-        &g_pDevice,	// 大事
-        &feature_level,
-        &g_pDeviceContext	// 大事
+	D3D_FEATURE_LEVEL levels[] = {
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0
+	};
+
+	D3D_FEATURE_LEVEL feature_level = D3D_FEATURE_LEVEL_11_0;
+
+	HRESULT hr = D3D11CreateDeviceAndSwapChain(
+		nullptr,
+		D3D_DRIVER_TYPE_HARDWARE,
+		nullptr,
+		device_flags,
+		levels,
+		ARRAYSIZE(levels),
+		D3D11_SDK_VERSION,
+		&swap_chain_desc,
+		&g_pSwapChain,	// 大事
+		&g_pDevice,	// 大事
+		&feature_level,
+		&g_pDeviceContext	// 大事
 	);
 
-    if (FAILED(hr)) {
+	if (FAILED(hr)) {
 		MessageBox(hWnd, "Direct3Dの初期化に失敗しました", "エラー", MB_OK);
-        return false;
-    }
+		return false;
+	}
 
 	if (!configureBackBuffer()) {
 		MessageBox(hWnd, "バックバッファの設定に失敗しました", "エラー", MB_OK);
 		return false;
 	}
 
-    return true;
+	return true;
 }
 
 void Direct3D_Finalize()
@@ -161,29 +167,29 @@ ID3D11DeviceContext* Direct3D_GetContext()
 
 bool configureBackBuffer()
 {
-    HRESULT hr;
+	HRESULT hr;
 
-    ID3D11Texture2D* back_buffer_pointer = nullptr;
+	ID3D11Texture2D* back_buffer_pointer = nullptr;
 
 	// バックバッファの取得
 	hr = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&back_buffer_pointer);
 
-    if (FAILED(hr)) {
+	if (FAILED(hr)) {
 		hal::dout << "バックバッファの取得に失敗しました" << std::endl;
-        return false;
-    }
+		return false;
+	}
 
 	// バックバッファのレンダーターゲットビューの生成
 	hr = g_pDevice->CreateRenderTargetView(back_buffer_pointer, nullptr, &g_pRenderTargetView);
 
-    if (FAILED(hr)) {
-        back_buffer_pointer->Release();
-        hal::dout << "バックバッファのレンダーターゲットビューの生成に失敗しました" << std::endl;
-        return false;
-    }
+	if (FAILED(hr)) {
+		back_buffer_pointer->Release();
+		hal::dout << "バックバッファのレンダーターゲットビューの生成に失敗しました" << std::endl;
+		return false;
+	}
 
 	// バックバッファの状態（情報）を取得
-    back_buffer_pointer->GetDesc(&g_BackBufferDesc);
+	back_buffer_pointer->GetDesc(&g_BackBufferDesc);
 
 	back_buffer_pointer->Release(); // バックバッファのポインタは不要なので解放
 
@@ -229,27 +235,27 @@ bool configureBackBuffer()
 	g_Viewport.MaxDepth = 1.0f;
 	g_pDeviceContext->RSSetViewports(1, &g_Viewport); // ビューポートの設定
 
-    return true;
+	return true;
 }
 
 void releaseBackBuffer()
 {
 	// Same as below
 	SAFE_RELEASE(g_pRenderTargetView)
-	SAFE_RELEASE(g_pDepthStencilBuffer)
-	SAFE_RELEASE(g_pDepthStencilView)
-	//if (g_pRenderTargetView) {
-	//	g_pRenderTargetView->Release();
-	//	g_pRenderTargetView = nullptr;
-	//}
+		SAFE_RELEASE(g_pDepthStencilBuffer)
+		SAFE_RELEASE(g_pDepthStencilView)
+		//if (g_pRenderTargetView) {
+		//	g_pRenderTargetView->Release();
+		//	g_pRenderTargetView = nullptr;
+		//}
 
-	//if (g_pDepthStencilBuffer) {
-	//	g_pDepthStencilBuffer->Release();
-	//	g_pDepthStencilBuffer = nullptr;
-	//}
+		//if (g_pDepthStencilBuffer) {
+		//	g_pDepthStencilBuffer->Release();
+		//	g_pDepthStencilBuffer = nullptr;
+		//}
 
-	//if (g_pDepthStencilView) {
-	//	g_pDepthStencilView->Release();
-	//	g_pDepthStencilView = nullptr;
-	//}
+		//if (g_pDepthStencilView) {
+		//	g_pDepthStencilView->Release();
+		//	g_pDepthStencilView = nullptr;
+		//}
 }
