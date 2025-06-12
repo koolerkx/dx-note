@@ -56,7 +56,8 @@ void Polygon_Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	TexMetadata metadata;
 	ScratchImage image;
 
-	LoadFromWICFile(L"knight.png", WIC_FLAGS_NONE, &metadata, image);
+	//LoadFromWICFile(L"knight.png", WIC_FLAGS_NONE, &metadata, image);
+	LoadFromWICFile(L"knight_3.png", WIC_FLAGS_NONE, &metadata, image);
 	HRESULT hr = CreateShaderResourceView(g_pDevice, image.GetImages(), image.GetImageCount(), metadata, &g_pTexture);
 
 	if (FAILED(hr)) {
@@ -88,8 +89,8 @@ void Polygon_Draw(void)
 
 	float x = 32.0f;
 	float y = 32.0f;
-	float w = 256;
-	float h = 256;
+	float w = 512;
+	float h = 512;
 
 	// ‰æ–Ê‚Ì¶ã‚©‚ç‰E‰º‚ÉŒü‚©‚¤ü•ª‚ð•`‰æ‚·‚é -> ŽžŒv‰ñ‚è
 	v[0].position = { x, y, 0.0f };	// LT
