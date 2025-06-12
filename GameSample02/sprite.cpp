@@ -87,8 +87,8 @@ void Sprite_Draw(float dx, float dy)
 	const float SCREEN_WIDTH = (float)Direct3D_GetBackBufferWidth();
 	const float SCREEN_HEIGHT = (float)Direct3D_GetBackBufferHeight();
 
-	float w = 256;
-	float h = 256;
+	float w = 512;
+	float h = 512;
 
 	// ‰æ–Ê‚Ì¶ã‚©‚ç‰E‰º‚ÉŒü‚©‚¤ü•ª‚ð•`‰æ‚·‚é -> ŽžŒv‰ñ‚è
 	v[0].position = { dx, dy, 0.0f };	// LT
