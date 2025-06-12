@@ -24,21 +24,29 @@ int APIENTRY WinMain(
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
-	// メッセージループ
+	// ゲームループ＆メッセージループ
 	MSG msg;
 
-	while (GetMessage(&msg, nullptr, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	float x = 0.0f;
 
+	do {
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) { // ウィンドウメッセージが来ていたら 
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else { // ゲームの処理 
+			
 		Direct3D_Clear();
 
 		for (int i = 0; i < 4; i++) {
-			Sprite_Draw(32.0f + i * 256, 32.0f);
+			Sprite_Draw(x, 32.0f);
+
+			x += 0.3f;
 		}
 
 		Direct3D_Present();
-	}
+		}
+	} while (msg.message != WM_QUIT);
 
 	Sprite_Finalize();
 	Shader_Finalize();
