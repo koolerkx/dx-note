@@ -16,11 +16,11 @@ int APIENTRY WinMain(
 	static_cast<void>(CoInitializeEx(nullptr, COINIT_MULTITHREADED));
 
 	HWND hWnd = GameWindow_Create(hInstance);
-	
+
 	Direct3D_Initialize(hWnd);
 	Shader_Initialize(Direct3D_GetDevice(), Direct3D_GetContext());
 	Sprite_Initialize(Direct3D_GetDevice(), Direct3D_GetContext());
-	
+
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
@@ -33,8 +33,10 @@ int APIENTRY WinMain(
 
 		Direct3D_Clear();
 
-		Sprite_Draw();
-		
+		for (int i = 0; i < 4; i++) {
+			Sprite_Draw(32.0f + i * 384, 32.0f);
+		}
+
 		Direct3D_Present();
 	}
 
