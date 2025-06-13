@@ -178,6 +178,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl" />
+    <None Include="DirectXTex_Debug.pdb" />
+    <None Include="DirectXTex_Release.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="DirectXTex_Debug.lib" />
