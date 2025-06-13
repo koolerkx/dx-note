@@ -43,7 +43,7 @@ int APIENTRY WinMain(
 
 			Sprite_Draw(x, 265.0f, 512.0f, 512.0f);
 
-			x += 0.3f;
+			//x += 0.3f;
 		}
 
 		Direct3D_Present();
