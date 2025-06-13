@@ -71,7 +71,7 @@ void Sprite_Finalize(void)
 	SAFE_RELEASE(g_pVertexBuffer);
 }
 
-void Sprite_Draw(float dx, float dy)
+void Sprite_Draw(float dx, float dy, float dw, float dh)
 {
 	// シェーダーを描画パイプラインに設定
 	Shader_Begin();
@@ -84,17 +84,11 @@ void Sprite_Draw(float dx, float dy)
 	Vertex* v = (Vertex*)msr.pData;
 
 	// 頂点情報を書き込み
-	const float SCREEN_WIDTH = (float)Direct3D_GetBackBufferWidth();
-	const float SCREEN_HEIGHT = (float)Direct3D_GetBackBufferHeight();
-
-	float w = 512;
-	float h = 512;
-
 	// 画面の左上から右下に向かう線分を描画する -> 時計回り
 	v[0].position = { dx, dy, 0.0f };	// LT
-	v[1].position = { dx + w, dy, 0.0f };	// RT
-	v[2].position = { dx, dy + h, 0.0f };	// LB
-	v[3].position = { dx + w, dy + h, 0.0f };	// RB
+	v[1].position = { dx + dw, dy, 0.0f };	// RT
+	v[2].position = { dx, dy + dh, 0.0f };	// LB
+	v[3].position = { dx + dw, dy + dh, 0.0f };	// RB
 
 	v[0].color = { 1.0f, 0.0f, 0.0f, 1.0f };
 	v[1].color = { 0.0f, 1.0f, 0.0f, 0.5f };
@@ -115,6 +109,9 @@ void Sprite_Draw(float dx, float dy)
 	g_pContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
 
 	// 頂点シェーダーに変換行列を設定
+	const float SCREEN_WIDTH = (float)Direct3D_GetBackBufferWidth();
+	const float SCREEN_HEIGHT = (float)Direct3D_GetBackBufferHeight();
+
 	Shader_SetMatrix(XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
 
 	// プリミティブトポロジ設定
